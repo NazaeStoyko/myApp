@@ -1,33 +1,33 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { listOfProducts } from './data.js';
-
-
-
-
+import { listOfProducts } from "./data.js";
 
 export default function List() {
-  const listItems = listOfProducts.map(listOfProducts =>
-    <li key={listOfProducts.id}>
-      {/* <img
-        src={getImageUrl(listOfProducts)}
-        alt={listOfProducts.name}
-      /> */}
-      <p>
-        <b>{listOfProducts.name}:</b>
-        {' ' + listOfProducts.price + ' '}
-        {/* known for {listOfProducts.accomplishment} */}
-      </p>
-    </li>
-  );
+  const listItems = listOfProducts.map((listOfProducts) => (
+    <div className="block">
+      <div className="block_row">
+       
+       
+         <div className="block_column">
+          <div className="block_item" key={listOfProducts.id}>
+            <p>
+              <b>{listOfProducts.name}:</b>
+              {" " + listOfProducts.price + " "}
+            </p>            
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+  ));
   return (
     <article>
-      <h1>Scientists</h1>
-      <ul>{listItems}</ul>
+  {/* { <h1>Scientists</h1> } */}
+      <div className="block_container" >{listItems}</div>
     </article>
   );
 }
-
 
 // function App() {
 //   return (
@@ -49,5 +49,4 @@ export default function List() {
 //     </div>
 //   );
 // }
-
 // export default App;

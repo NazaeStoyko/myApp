@@ -9,4 +9,7 @@ export const listOfProducts = [
     { id: 8, name: "JPD-UDV-01 ", price: 934 },
     { id: 9, name: "CND-GPW3 ", price: 532 },
     { id: 10, name: "DualSense ", price: 453 },
+
+    { id: 11, name: "Esperanza EG105G", price: 329 },
+    { id: 12, name: "Esperanza EG107G ", price: 399 },
   ];
