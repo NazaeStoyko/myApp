@@ -1,53 +1,39 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { listOfProducts } from './data.js';
+import { Item } from "./components/item";
 
+import { Header } from "./components/header";
+import { useEffect, useState } from "react";
 
+export default function App() {
+  const [products, setProducts] = useState([]);
 
+  const getProducts = async () => {
+    const response = await fetch("http://localhost:3001/products");
 
+    const result = await response.json();
+    setProducts(result);
+  };
 
-export default function List() {
-  const listItems = listOfProducts.map(listOfProducts =>
-    <li key={listOfProducts.id}>
-      {/* <img
-        src={getImageUrl(listOfProducts)}
-        alt={listOfProducts.name}
-      /> */}
-      <p>
-        <b>{listOfProducts.name}:</b>
-        {' ' + listOfProducts.price + ' '}
-        {/* known for {listOfProducts.accomplishment} */}
-      </p>
-    </li>
-  );
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
-    <article>
-      <h1>Scientists</h1>
-      <ul>{listItems}</ul>
-    </article>
+    <main>
+      <Header />
+
+      <article>
+        <div className="block_container">
+          {products.map(({ id, name, price }) => (
+            <Item key={id} name={name} price={price} />
+          ))}
+        </div>
+      </article>
+
+      <aside></aside>
+
+      <footer></footer>
+    </main>
   );
 }
-
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           1 Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
