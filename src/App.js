@@ -1,52 +1,39 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { listOfProducts } from "./data.js";
+import { Item } from "./components/item";
 
-export default function List() {
-  const listItems = listOfProducts.map((listOfProducts) => (
-    <div className="block">
-      <div className="block_row">
-       
-       
-         <div className="block_column">
-          <div className="block_item" key={listOfProducts.id}>
-            <p>
-              <b>{listOfProducts.name}:</b>
-              {" " + listOfProducts.price + " "}
-            </p>            
-          </div>
-        </div>
+import { Header } from "./components/header";
+import { useEffect, useState } from "react";
 
-      </div>
-    </div>
-    
-  ));
+export default function App() {
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    const response = await fetch("http://localhost:3001/products");
+
+    const result = await response.json();
+    setProducts(result);
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
-    <article>
-  {/* { <h1>Scientists</h1> } */}
-      <div className="block_container" >{listItems}</div>
-    </article>
+    <main>
+      <Header />
+
+      <article>
+        <div className="block_container">
+          {products.map(({ id, name, price }) => (
+            <Item key={id} name={name} price={price} />
+          ))}
+        </div>
+      </article>
+
+      <aside></aside>
+
+      <footer></footer>
+    </main>
   );
 }
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           1 Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-// export default App;
