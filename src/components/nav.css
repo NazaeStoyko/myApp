@@ -1,4 +1,13 @@
-nav{
-    border: 1px solid blue;
-    width: 90%;
+nav {
+  display: flex;
+  border: 1px solid blue;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+}
+.seach {
+  height: 30px;
+  border-radius: 30px;
+  width: 400px;
+  padding: 2px 10px;
 }
