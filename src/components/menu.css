@@ -1,6 +1,6 @@
 .menu__container {
   text-align: right;
-  padding-right: 20px;
+  /* padding-right: 10px; */
   text-align: center;
 
   width: 10%;
@@ -11,6 +11,9 @@
   display: flex;
   width: 100%;
   height: 100%;
+  
+ 
+  
   align-items: center;
   justify-content: center;
 }
@@ -93,10 +96,39 @@ button:focus {
   color: #e5ff60;
 }
 
-.basket{
-  width: 30px;
-  height: 30px;
-  background-image: url("D:\Narnia-Web\my-app\src\img\shopping-cart.png");
-  background-color: white;
-  margin-right: 20px;
+.basket-icon {
+  color: white;
+  font-size: 24px;
+}
+
+.modal{
+ 
+  color: white;
+
+  position: absolute;
+  right: 0;
+
+  padding-right: 20px;
+  height: 150px;
+  background-color: black;
+}
+.containet{
+  margin-left: 20px;
+ 
+}
+.menu__item .basket{
+
+  margin:10px;
+}
+.filter {
+  width: 30px; /* Adjust the width as needed */
+  height: 30px; /* Adjust the height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-icon {
+  color: white;
+ 
 }

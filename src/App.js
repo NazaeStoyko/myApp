@@ -2,6 +2,8 @@ import logo from "./logo.svg";
 import "./App.css";
 import { Item } from "./components/item";
 
+
+
 import { Header } from "./components/header";
 import { useEffect, useState } from "react";
 import { Menu } from "./components/menu";
@@ -80,8 +82,8 @@ export default function App() {
         </div>
       </article>
 
-      <aside></aside>
-
+      <aside> </aside>
+      
       <footer>{/* <Footer name={"Ivan"} surname={"Ivanenco"} /> */}</footer>
     </main>
   );
