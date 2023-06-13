@@ -129,7 +129,7 @@ export const Menu = (props) => {
       {isModalOpen && (
         <div className="modal" onClick={toggleModal}>
           <div className="container">
-            {/* Modal content here */}
+            
           </div>
         </div>
       )}
