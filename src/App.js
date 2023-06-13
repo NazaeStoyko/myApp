@@ -5,7 +5,7 @@ import { Item } from "./components/item";
 import { Header } from "./components/header";
 import { useEffect, useState } from "react";
 import { Menu } from "./components/menu";
-
+// import { Footer } from "./components/footer";
 import { Nav } from "./components/nav";
 
 export default function App() {
@@ -58,8 +58,12 @@ export default function App() {
     <main>
       <Header>
         <Nav setInput={setInput} applyFilter={applyFilter} />
+        
         <Menu isAdmin={isAdmin} getProducts={getProducts} />
       </Header>
+
+
+
 
       <article>
         <div className="block_container">
@@ -78,7 +82,7 @@ export default function App() {
 
       <aside></aside>
 
-      <footer></footer>
+      <footer>{/* <Footer name={"Ivan"} surname={"Ivanenco"} /> */}</footer>
     </main>
   );
 }

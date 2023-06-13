@@ -5,12 +5,18 @@ import Popup from "./Popup";
 export const Menu = (props) => {
   const [isVisible, setVisibility] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-
   const createProduct = () => {
     fetch("http://localhost:3001/add_product", {
       method: "POST",
@@ -30,34 +36,31 @@ export const Menu = (props) => {
       props.getProducts();
     });
   };
-
   return (
     <div className="menu__container">
       <div className="menu__item">
+        <button className="basket"></button>
+
         <div className="menu">
-          <button
-            onClick={() => {
-              setVisibility(true);
-            }}
-          >
-            Menu
+          <button onClick={toggleMenu}>
+            {" "}
+            {}
+            <div className="line"></div>
+            <div className="line"></div>
+            <div className="line" style={{ marginBottom: 0 }}></div>
           </button>
         </div>
       </div>
-      {isVisible && (
+      {isMenuOpen && (
         <div className="menu__list">
           <ul>
-            <li
-              onClick={() => {
-                setVisibility(false);
-              }}
-            >
-              profile
-            </li>
+            <li onClick={() => setVisibility(false)}>profile</li>
             <li>sign out</li>
 
             {props.isAdmin && (
-              <button onClick={togglePopup}>Create Product</button>
+              <button className="raise" onClick={togglePopup}>
+                Create Product
+              </button>
             )}
 
             {isOpen && (
