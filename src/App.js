@@ -1,16 +1,12 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { Item } from "./components/item";
-
 import { Header } from "./components/header";
 import { useEffect, useState } from "react";
 import { Menu } from "./components/menu";
-
 import { Nav } from "./components/nav";
 
 export default function App() {
   const [products, setProducts] = useState([]);
-
   const [user, setUser] = useState({});
   const [filteredProducts, setFilteredProducts] = useState([]);
   const isAdmin = user.role === "admin";
@@ -23,7 +19,6 @@ export default function App() {
 
   const getProducts = async () => {
     const response = await fetch("http://localhost:3001/products");
-
     const result = await response.json();
     setProducts(result);
   };
@@ -76,9 +71,9 @@ export default function App() {
         </div>
       </article>
 
-      <aside></aside>
+      <aside> </aside>
 
-      <footer></footer>
+      <footer>{/* <Footer name={"Ivan"} surname={"Ivanenco"} /> */}</footer>
     </main>
   );
 }

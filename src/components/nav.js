@@ -15,6 +15,7 @@ export const Nav = ({ setInput, applyFilter }) => {
         placeholder=""
         onChange={handleInput}
       />
+      
     </nav>
   );
 };
