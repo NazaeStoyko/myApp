@@ -11,6 +11,8 @@ export const Item = (props) => {
   const [name, setName] = useState(props.name);
   const [price, setPrice] = useState(props.price);
 
+  const [showInput, setShowInput] = useState(true);
+
   const updateProduct = () => {
     fetch("http://localhost:3001/product_update", {
       method: "POST",
@@ -29,19 +31,27 @@ export const Item = (props) => {
       <div className="block_row">
         <div className="block_column">
           <div className="block_item">
-            <p>
-              <b>{props.name}:</b>
-              {" " + props.price + " "}
-            </p>
-            <button
-              onClick={() => {
-                props.deleteProduct(props.id);
-              }}
-            >
-              Delete
-            </button>
-
-            <button onClick={togglePopup}>Edit</button>
+            <div className="card">
+      
+              <img src={props.avatarUrl} alt="Photo" style={{ width: "100%" }} />
+              <div className="container">
+                <h4>
+                  <b>{props.name}</b>
+                </h4>
+                <p>{"" + props.price + "₴"}</p>
+              </div>
+              <div className="button_container">
+                <button
+                  className="butoon_margin"
+                  onClick={() => {
+                    props.deleteProduct(props.id);
+                  }}
+                >
+                  Delete
+                </button>
+                <button onClick={togglePopup}>Edit</button>
+              </div>
+            </div>
 
             {isOpen && (
               <PopupUpdata
@@ -55,11 +65,13 @@ export const Item = (props) => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
+
                     <input
                       type="number"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                     />
+
                     <button onClick={updateProduct}>Save</button>
                   </div>
                 }
