@@ -85,16 +85,13 @@ button {
   background: none;
   border: 2px solid;
   line-height: 1;
-
 }
 
 button {
   color: var(--color);
   transition: 0.25s;
-
 }
 .button_Create {
- 
   border-radius: 20px;
   position: absolute;
   bottom: 50px;
@@ -102,10 +99,6 @@ button {
   transform: translateX(-50%);
   margin-bottom: 10px;
 }
-
-
-
-
 
 button:hover,
 button:focus {
@@ -136,7 +129,7 @@ button:focus {
 }
 .filter {
   width: 30px;
-  height: 30px; 
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -145,8 +138,16 @@ button:focus {
 .filter-icon {
   color: white;
 }
-input{
+input {
   margin: 20px;
   border-radius: 20px;
-  padding-left:5px ;
+  padding-left: 5px;
+}
+
+.container_img {
+  width: 100%;
+}
+.avatar {
+  width: 200px;
+  height: 200px;
 }

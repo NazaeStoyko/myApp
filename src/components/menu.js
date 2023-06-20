@@ -4,30 +4,28 @@ import Popup from "./Popup";
 import { FaShoppingCart, FaFilter } from "react-icons/fa";
 
 export const Menu = (props) => {
-  const [isVisible, setVisibility] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const menuListRef = useRef(null);
   const containerRef = useRef(null);
+
+  const [avatar, setAvatar] = useState(null);
+
   const [filterMaxPrice, setFilterMaxPrice] = useState("");
   const [filterMinPrice, setFilterMinPrice] = useState("");
   const [filterCustomPrice, setFilterCustomPrice] = useState("");
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [showInput, setShowInput] = useState(true);
 
   useEffect(() => {
-    setMenuListHeight();
-    window.addEventListener("resize", setMenuListHeight);
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      window.removeEventListener("resize", setMenuListHeight);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+    const savedAvatar = localStorage.getItem(`avatar-${props.id}`);
+    if (savedAvatar) {
+      setAvatar(savedAvatar);
+    }
+  }, [props.id]);
 
   const setMenuListHeight = () => {
     if (menuListRef.current) {
@@ -53,28 +51,27 @@ export const Menu = (props) => {
   };
 
   const createProduct = () => {
+    const productData = {
+      name: name,
+      price: price,
+    };
+
     fetch("http://localhost:3001/add_product", {
       method: "POST",
-      body: JSON.stringify({ name, price, avatarUrl }), 
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(productData),
     })
       .then((response) => {
-        console.log({ response });
-        response.json().then((value) => {
-          console.log({ value });
-        });
-        setName("");
-        setPrice(0);
-        setAvatarUrl(""); 
-        setShowInput(true); 
-        togglePopup();
-        props.getProducts();
+        if (response.ok) {
+          togglePopup();
+          setName("");
+          setPrice(0);
+          props.getProducts();
+        }
       })
-      .catch((error) => {
-        console.error("Error creating product:", error);
-      });
+
   };
 
   const handleClickOutside = (event) => {
@@ -90,24 +87,30 @@ export const Menu = (props) => {
     e.stopPropagation();
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      const imageUrl = event.target.result;
-      setAvatarUrl(imageUrl);
-      setShowInput(false);
-    };
-
-    reader.readAsDataURL(file);
-  };
-
   const applyFilters = () => {
     console.log("Applied filters:");
     console.log("Max Price:", filterMaxPrice);
     console.log("Min Price:", filterMinPrice);
     console.log("Custom Price:", filterCustomPrice);
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const imageSrc = reader.result;
+      setAvatar(imageSrc);
+      localStorage.setItem(`avatar-${props.id}`, imageSrc);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handlePopupClose = () => {
+    setIsOpen(false);
+    setName("");
+    setPrice(0);
   };
 
   return (
@@ -130,10 +133,10 @@ export const Menu = (props) => {
       {isMenuOpen && (
         <div className="menu__list" ref={menuListRef}>
           <ul>
-            <li onClick={() => setVisibility(false)}>profile</li>
+            <li onClick={() => setIsOpen(false)}>profile</li>
             <li>sign out</li>
             {props.isAdmin && (
-              <button className="raise" onClick={togglePopup}>
+              <button className="raise" onClick={() => setIsOpen(true)}>
                 Create Product
               </button>
             )}
@@ -143,7 +146,7 @@ export const Menu = (props) => {
 
       {isOpen && (
         <Popup
-          handleClose={togglePopup}
+          handleClose={handlePopupClose}
           content={
             <div className="container">
               <h2>Product</h2>
@@ -160,17 +163,11 @@ export const Menu = (props) => {
                 onChange={(e) => setPrice(e.target.value)}
                 onClick={handleInputChange}
               />
-              {showInput && ( 
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  onClick={handleInputChange}
-                />
-              )}
-              {avatarUrl && (
-                <img src={avatarUrl} alt="Product" className="avatar" />
-              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
               <button className="button_Create" onClick={createProduct}>
                 Create
               </button>
@@ -210,7 +207,7 @@ export const Menu = (props) => {
                 onClick={handleInputChange}
               />
             </label>
-            {/* <button onClick={applyFilters}>Apply</button> */}
+            <button onClick={applyFilters}>Apply</button>
           </div>
         </div>
       )}
