@@ -4,6 +4,8 @@
 // import { useEffect, useState } from "react";
 // import { Menu } from "./components/menu";
 // import { Nav } from "./components/nav";
+// import Footer from "./components/footer";
+
 
 // export default function App() {
 //   const [products, setProducts] = useState([]);
@@ -20,6 +22,7 @@
 //   const getProducts = async () => {
 //     const response = await fetch("http://localhost:3001/products");
 //     const result = await response.json();
+//     console.log({result})
 //     setProducts(result);
 //   };
 
@@ -37,6 +40,14 @@
 //     setFilteredProducts(result);
 //   };
 
+//   const applyFilterPrice = (inputValue) => {
+//     const result = products.filter((product) =>
+//       product.price.toString().includes(inputValue.toLowerCase())
+//     );
+//     setFilteredProducts(result);
+//   };
+
+
 //   const deleteProduct = async (id) => {
 //     const response = fetch("http://localhost:3001/delete_product", {
 //       method: "POST",
@@ -49,21 +60,23 @@
 //     });
 //   };
 
+
+
 //   return (
 //     <main>
 //       <Header>
 //         <Nav setInput={setInput} applyFilter={applyFilter} />
-//         <Menu isAdmin={isAdmin} getProducts={getProducts} />
+//         <Menu isAdmin={isAdmin} getProducts={getProducts} setInput={setInput} applyFilterPrice={applyFilterPrice} setFilteredProducts={setFilteredProducts} />
 //       </Header>
 
 //       <article>
 //         <div className="block_container">
-//           {(input ? filteredProducts : products).map(({ _id, name, price }) => (
+//           {(input ? filteredProducts : products).map(({ _id, name, price, imageUrl }) => (
 //             <Item
 //               key={_id}
 //               name={name}
 //               price={price}
-
+//               imageUrl={imageUrl}
 //               id={_id}
 //               deleteProduct={deleteProduct}
 //               getProducts={getProducts}
@@ -74,10 +87,12 @@
 
 //       <aside> </aside>
 
-//       <footer>{/* <Footer name={"Ivan"} surname={"Ivanenco"} /> */}</footer>
+//       <footer><Footer /></footer>
 //     </main>
 //   );
 // }
+
+
 
 
 
@@ -89,6 +104,7 @@ import { Header } from "./components/header";
 import { useEffect, useState } from "react";
 import { Menu } from "./components/menu";
 import { Nav } from "./components/nav";
+import Footer from "./components/footer";
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -101,6 +117,7 @@ export default function App() {
     const result = await response.json();
     setUser(result);
   };
+
 
   const getProducts = async () => {
     const response = await fetch("http://localhost:3001/products");
@@ -115,12 +132,38 @@ export default function App() {
 
   const [input, setInput] = useState("");
 
+
+
+
   const applyFilter = (inputValue) => {
     const result = products.filter((product) =>
       product.name.toLowerCase().includes(inputValue.toLowerCase())
     );
     setFilteredProducts(result);
   };
+
+
+
+
+  const applyFilterPrice = (inputValue) => {
+    const result = products.filter((product) =>
+      product.price.toString().includes(inputValue.toLowerCase())
+    );
+    setFilteredProducts(result);
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const deleteProduct = async (id) => {
     const response = fetch("http://localhost:3001/delete_product", {
@@ -138,28 +181,37 @@ export default function App() {
     <main>
       <Header>
         <Nav setInput={setInput} applyFilter={applyFilter} />
-        <Menu isAdmin={isAdmin} getProducts={getProducts} />
+        <Menu
+          isAdmin={isAdmin}
+          getProducts={getProducts}
+          applyFilterPrice={applyFilterPrice}
+          setFilteredProducts={setFilteredProducts}
+        />
       </Header>
 
       <article>
         <div className="block_container">
-          {(input ? filteredProducts : products).map(({ _id, name, price, imageUrl }) => (
-            <Item
-              key={_id}
-              name={name}
-              price={price}
-              imageUrl={imageUrl}
-              id={_id}
-              deleteProduct={deleteProduct}
-              getProducts={getProducts}
-            />
-          ))}
+          {(input ? filteredProducts : products).map(
+            ({ _id, name, price, imageUrl }) => (
+              <Item
+                key={_id}
+                name={name}
+                price={price}
+                imageUrl={imageUrl}
+                id={_id}
+                deleteProduct={deleteProduct}
+                getProducts={getProducts}
+              />
+            )
+          )}
         </div>
       </article>
 
       <aside> </aside>
 
-      <footer>{/* <Footer name={"Ivan"} surname={"Ivanenco"} /> */}</footer>
+      <footer>
+        <Footer />
+      </footer>
     </main>
   );
 }
