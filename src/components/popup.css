@@ -19,10 +19,6 @@
   margin: 20px auto;
   padding: 20px;
   overflow: auto;
-
-
-
-
 }
 
 .btn__close {
@@ -31,5 +27,6 @@
   border-radius: 50%;
   position: fixed;
   right: calc(25% - 15px);
-  top: 30px;
+  top: 100px;
+
 }

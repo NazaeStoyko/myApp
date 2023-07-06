@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  
 }
 p,
 b {
@@ -14,13 +15,14 @@ b {
  
   padding: 20px;
   justify-content: center;
-  /* margin-top: 600px; */
+
 }
 
 
 .block_row {
   margin: 110px 30px;
   border-radius: 40px;
+  
 }
 
 .block_item {

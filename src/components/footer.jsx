@@ -1,41 +1,49 @@
-// import { useState } from "react";
+import React from "react";
+import "./footer.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebook, faTwitter, faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
 
-// export const Footer = (props) => {
-//   const [number, setNumber] = useState(0);
-//   let price = 32;
+const Footer = () => {
+  return (
+    <footer className="footer-distributed">
+      <div className="footer-left">
+        <h3>Company<span>logo</span></h3>
+        <p className="footer-links">
+          <a href="#" className="link-1">Home</a>
+          <a href="#">Pricing</a>
+          <a href="#">About</a>
+        </p>
+        <p className="footer-company-name">Company Name © 2023</p>
+      </div>
 
-//   return (
-//     <div>
-//       <input
-//         type="number"
-//         value={price}
-//         onChange={(e) => {
-//           price = e.target.value;
-//           console.log({ price });
-//           // setNumber(e.target.value);
-//         }}
-//       />
-//       <p>Sum: {price * 2}</p>
-//     </div>
-//   );
-// };
+      <div className="footer-center">
+        <div>
+          <i className="fa fa-map-marker"></i>
+          <p><span>Address</span> Lorem ipsum dolor sit</p>
+        </div>
+        <div>
+          <i className="fa fa-phone"></i>
+          <p>+38098969495</p>
+        </div>
+        <div>
+          <i className="fa fa-envelope"></i>
+          <p><a href="mailto:support@company.com">support@company.com</a></p>
+        </div>
+      </div>
 
-// const test = (value) => {
-//   let internalValue = {
-//     value,
-//   };
+      <div className="footer-right">
+        <p className="footer-company-about">
+          <span>About the company</span>
+          Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+        </p>
+        <div className="footer-icons">
+          <a href="#"><FontAwesomeIcon icon={faFacebook} /></a>
+          <a href="#"><FontAwesomeIcon icon={faTwitter} /></a>
+          <a href="https://github.com/NazaeStoyko/myApp"><FontAwesomeIcon icon={faGithub} /></a>
+        </div>
+      </div>
+    </footer>
+  );
+};
 
-//   const change = (newValue) => {
-//     internalValue.value = newValue;
-//     rerender();
-//   };
-
-//   return [internalValue, change];
-// };
-
-// const [value, onChange] = test(10);
-
-// console.log(1, value);
-
-// onChange(25);
-// console.log(2, value);
+export default Footer;
