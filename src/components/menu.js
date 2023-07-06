@@ -1,40 +1,23 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import "./menu.css";
 import Popup from "./Popup";
 import { FaShoppingCart, FaFilter } from "react-icons/fa";
 
+
 export const Menu = (props) => {
-  const [isVisible, setVisibility] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
-  const menuListRef = useRef(null);
-  const containerRef = useRef(null);
-  const [filterMaxPrice, setFilterMaxPrice] = useState("");
-  const [filterMinPrice, setFilterMinPrice] = useState("");
-  const [filterCustomPrice, setFilterCustomPrice] = useState("");
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [showInput, setShowInput] = useState(true);
+  const [photo, setPhoto] = useState(null);
 
-  useEffect(() => {
-    setMenuListHeight();
-    window.addEventListener("resize", setMenuListHeight);
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      window.removeEventListener("resize", setMenuListHeight);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const setMenuListHeight = () => {
-    if (menuListRef.current) {
-      const height = menuListRef.current.scrollHeight;
-      menuListRef.current.style.height = `${height}px`;
-    }
-  };
+  const menuListRef = useRef(null);
+  const containerRef = useRef(null);
+  const modalRef = useRef(null);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -44,41 +27,41 @@ export const Menu = (props) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
   const toggleCartModal = () => {
     setIsCartModalOpen(!isCartModalOpen);
   };
 
   const createProduct = () => {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("photo", photo);
+
     fetch("http://localhost:3001/add_product", {
       method: "POST",
-      body: JSON.stringify({ name, price, avatarUrl }), 
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: formData,
     })
       .then((response) => {
-        console.log({ response });
-        response.json().then((value) => {
-          console.log({ value });
-        });
-        setName("");
-        setPrice(0);
-        setAvatarUrl(""); 
-        setShowInput(true); 
-        togglePopup();
-        props.getProducts();
+        if (response.ok) {
+          togglePopup();
+          setName("");
+          setPrice(0);
+          setPhoto(null);
+          props.getProducts(); // Оновити дані у батьківському компоненті
+        }
       })
       .catch((error) => {
-        console.error("Error creating product:", error);
+        console.log(error);
       });
   };
 
   const handleClickOutside = (event) => {
-    if (containerRef.current && !containerRef.current.contains(event.target)) {
+    if (
+      containerRef.current &&
+      !containerRef.current.contains(event.target) &&
+      modalRef.current &&
+      !modalRef.current.contains(event.target)
+    ) {
       setIsOpen(false);
       setIsModalOpen(false);
       setIsMenuOpen(false);
@@ -86,36 +69,36 @@ export const Menu = (props) => {
     }
   };
 
+  const handleModalClick = (event) => {
+    event.stopPropagation();
+  };
+
   const handleInputChange = (e) => {
     e.stopPropagation();
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+  const handlePopupClose = () => {
+    setIsOpen(false);
+    setName("");
+    setPrice(0);
+    setPhoto(null);
+  };
 
-    reader.onload = (event) => {
-      const imageUrl = event.target.result;
-      setAvatarUrl(imageUrl);
-      setShowInput(false);
+  const handlePhotoChange = (event) => {
+    const selectedPhoto = event.target.files[0];
+    setPhoto(selectedPhoto);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-
-    reader.readAsDataURL(file);
-  };
-
-  const applyFilters = () => {
-    console.log("Applied filters:");
-    console.log("Max Price:", filterMaxPrice);
-    console.log("Min Price:", filterMinPrice);
-    console.log("Custom Price:", filterCustomPrice);
-  };
+  }, []);
 
   return (
     <div className="menu__container" ref={containerRef}>
       <div className="menu__item">
-        <button className="filter" onClick={toggleModal}>
-          <FaFilter className="filter-icon" />
-        </button>
         <button className="basket" onClick={toggleCartModal}>
           <FaShoppingCart className="basket-icon" />
         </button>
@@ -130,10 +113,10 @@ export const Menu = (props) => {
       {isMenuOpen && (
         <div className="menu__list" ref={menuListRef}>
           <ul>
-            <li onClick={() => setVisibility(false)}>profile</li>
+            <li onClick={() => setIsOpen(false)}>profile</li>
             <li>sign out</li>
             {props.isAdmin && (
-              <button className="raise" onClick={togglePopup}>
+              <button className="raise" onClick={() => setIsOpen(true)}>
                 Create Product
               </button>
             )}
@@ -143,7 +126,7 @@ export const Menu = (props) => {
 
       {isOpen && (
         <Popup
-          handleClose={togglePopup}
+          handleClose={handlePopupClose}
           content={
             <div className="container">
               <h2>Product</h2>
@@ -153,24 +136,16 @@ export const Menu = (props) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 onClick={handleInputChange}
+                placeholder="Name product"
               />
               <input
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 onClick={handleInputChange}
+                placeholder="Price the product"
               />
-              {showInput && ( 
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  onClick={handleInputChange}
-                />
-              )}
-              {avatarUrl && (
-                <img src={avatarUrl} alt="Product" className="avatar" />
-              )}
+              <input type="file" onChange={handlePhotoChange} />
               <button className="button_Create" onClick={createProduct}>
                 Create
               </button>
@@ -178,50 +153,22 @@ export const Menu = (props) => {
           }
         />
       )}
-
-      {isModalOpen && (
-        <div className="modal" onClick={toggleModal}>
-          <div className="container">
-            <h2>Filter Products</h2>
-            <label>
-              Max Price:
-              <input
-                type="text"
-                value={filterMaxPrice}
-                onChange={(e) => setFilterMaxPrice(e.target.value)}
-                onClick={handleInputChange}
-              />
-            </label>
-            <label>
-              Min Price:
-              <input
-                type="text"
-                value={filterMinPrice}
-                onChange={(e) => setFilterMinPrice(e.target.value)}
-                onClick={handleInputChange}
-              />
-            </label>
-            <label>
-              Custom Price:
-              <input
-                type="text"
-                value={filterCustomPrice}
-                onChange={(e) => setFilterCustomPrice(e.target.value)}
-                onClick={handleInputChange}
-              />
-            </label>
-            {/* <button onClick={applyFilters}>Apply</button> */}
-          </div>
-        </div>
-      )}
-
       {isCartModalOpen && (
-        <div className="modal" onClick={toggleCartModal}>
-          <div className="container">
+        <div className="modal" onClick={toggleCartModal} ref={modalRef}>
+          <div className="container" onClick={handleModalClick}>
             <h2>Cart</h2>
+
+            {/* Виводимо назву та ціну товару */}
+
+
           </div>
         </div>
+
       )}
     </div>
   );
 };
+
+
+
+

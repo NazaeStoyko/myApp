@@ -7,10 +7,10 @@ const Popup = (props) => {
       <div className="box">
         <button className="btn__close" onClick={props.handleClose}>
           X
-        </button>
+        </button>    
         {props.content}
       </div>
-    </div>
+      </div>
   );
 };
 export default Popup;

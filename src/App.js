@@ -1,9 +1,10 @@
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Item } from "./components/item";
 import { Header } from "./components/header";
-import { useEffect, useState } from "react";
 import { Menu } from "./components/menu";
 import { Nav } from "./components/nav";
+import Footer from "./components/footer";
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -21,6 +22,7 @@ export default function App() {
     const response = await fetch("http://localhost:3001/products");
     const result = await response.json();
     setProducts(result);
+    setFilteredProducts(result);
   };
 
   useEffect(() => {
@@ -38,31 +40,53 @@ export default function App() {
   };
 
   const deleteProduct = async (id) => {
-    const response = fetch("http://localhost:3001/delete_product", {
+    const response = await fetch("http://localhost:3001/delete_product", {
       method: "POST",
       body: JSON.stringify({ id }),
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(() => {
-      getProducts();
     });
+
+    if (response.ok) {
+      getProducts();
+    }
+  };
+
+  const applySortByPrice = () => {
+    const sortedProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
+    setFilteredProducts(sortedProducts);
+  };
+
+  const applySortByHighestPrice = () => {
+    const sortedProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
+    setFilteredProducts(sortedProducts);
   };
 
   return (
     <main>
       <Header>
-        <Nav setInput={setInput} applyFilter={applyFilter} />
-        <Menu isAdmin={isAdmin} getProducts={getProducts} />
+        <Nav
+          setInput={setInput}
+          applyFilter={applyFilter}
+          applySortByPrice={applySortByPrice}
+          applySortByHighestPrice={applySortByHighestPrice}
+        />
+        <Menu
+          isAdmin={isAdmin}
+          getProducts={getProducts}
+
+        />
       </Header>
 
       <article>
         <div className="block_container">
-          {(input ? filteredProducts : products).map(({ _id, name, price }) => (
+          {filteredProducts.map(({ _id, name, price, imageUrl }) => (
             <Item
               key={_id}
               name={name}
               price={price}
+              imageUrl={imageUrl}
               id={_id}
               deleteProduct={deleteProduct}
               getProducts={getProducts}
@@ -71,9 +95,21 @@ export default function App() {
         </div>
       </article>
 
-      <aside> </aside>
-
-      <footer>{/* <Footer name={"Ivan"} surname={"Ivanenco"} /> */}</footer>
+      <footer>
+        <Footer />
+      </footer>
     </main>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
