@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { FaFilter } from "react-icons/fa";
+
 
 
 import "./nav.css";
