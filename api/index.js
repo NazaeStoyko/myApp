@@ -9,11 +9,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 console.log({ port })
 
-const corsOptions = {
-    origin: "*",
-};
+// const corsOptions = {
+//     origin: "*",
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
