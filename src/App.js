@@ -13,7 +13,11 @@ export default function App() {
   const isAdmin = user.role === "admin";
 
   const getUser = async () => {
+<<<<<<< Updated upstream
     const response = await fetch("api/user");
+=======
+    const response = await fetch("/user");
+>>>>>>> Stashed changes
     const result = await response.json();
     setUser(result);
   };
