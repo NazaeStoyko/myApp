@@ -7,7 +7,7 @@ const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 3000;
-console.log({ port })
+console.log({ my_port: port })
 
 const corsOptions = {
     origin: ["http://localhost:3000", "https://game-pad-three.vercel.app"],
@@ -91,21 +91,9 @@ const upload = multer({ storage });
 //         });
 // });
 
+
+
 app.get("/products", async (req, res) => {
-    try {
-        await client.connect();
-        const db = client.db("server");
-        const products = db.collection("products");
-        const listOfProducts = await products.find({}).toArray();
-
-        res.json(listOfProducts);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-});
-
-app.get("api/products", async (req, res) => {
     try {
         await client.connect();
         const db = client.db("server");

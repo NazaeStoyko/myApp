@@ -21,7 +21,7 @@ export default function App() {
   };
 
   const getProducts = async () => {
-    const response = await fetch("api/products");
+    const response = await fetch("/products");
     const result = await response.json();
     setProducts(result);
     setFilteredProducts(result);
