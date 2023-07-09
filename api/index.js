@@ -93,7 +93,7 @@ const upload = multer({ storage });
 
 
 
-app.get("/products", async (req, res) => {
+app.get("/api/products", async (req, res) => {
     try {
         await client.connect();
         const db = client.db("server");
@@ -107,43 +107,7 @@ app.get("/products", async (req, res) => {
     }
 });
 
-app.get("/user", async (req, res) => {
-    console.log('into user endpoint')
-    try {
-        await client.connect();
-        console.log('into user endpoint::connected to db')
 
-        const db = client.db("server");
-        const users = db.collection("users");
-        const admin = await users.findOne({ name: "Nazar" });
-        console.log({ admin })
-        res.json(admin);
-    } catch (error) {
-        console.log('into user endpoint:error')
-
-        console.log(error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-});
-
-app.get("/api/some/path", async (req, res) => {
-    console.log('into user endpoint')
-    try {
-        await client.connect();
-        console.log('into user endpoint::connected to db')
-
-        const db = client.db("server");
-        const users = db.collection("users");
-        const admin = await users.findOne({ name: "Nazar" });
-        console.log({ admin })
-        res.json(admin);
-    } catch (error) {
-        console.log('into user endpoint:error')
-
-        console.log(error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-});
 
 app.get("/api/user", async (req, res) => {
     console.log('into user endpoint')
@@ -164,7 +128,7 @@ app.get("/api/user", async (req, res) => {
     }
 });
 
-app.post("api/add_product", upload.single("photo"), async (req, res) => {
+app.post("/api/add_product", upload.single("photo"), async (req, res) => {
     try {
         const name = req.body.name;
         const price = req.body.price;
@@ -183,7 +147,7 @@ app.post("api/add_product", upload.single("photo"), async (req, res) => {
     }
 });
 
-app.post("api/delete_product", async (req, res) => {
+app.post("/api/delete_product", async (req, res) => {
     try {
         const id = req.body.id;
 
@@ -200,7 +164,7 @@ app.post("api/delete_product", async (req, res) => {
     }
 });
 
-app.post("api/product_update", async (req, res) => {
+app.post("/api/product_update", async (req, res) => {
     try {
         const id = req.body.id;
         const name = req.body.name;
