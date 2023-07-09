@@ -21,7 +21,10 @@
     "react-modal": "^3.16.1",
     "react-scripts": "5.0.1",
     "react-spring": "^9.7.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "cors": "^2.8.5",
+    "mongodb": "^5.5.0",
+    "vercel": "^31.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
