@@ -83,14 +83,19 @@ app.get("api/products", async (req, res) => {
 });
 
 app.get("api/user", async (req, res) => {
+    console.log('into user endpoint')
     try {
         await client.connect();
+        console.log('into user endpoint::connected to db')
+
         const db = client.db("server");
         const users = db.collection("users");
         const admin = await users.findOne({ name: "Nazar" });
-
+        console.log({ admin })
         res.json(admin);
     } catch (error) {
+        console.log('into user endpoint:error')
+
         console.log(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
