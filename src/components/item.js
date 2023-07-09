@@ -18,7 +18,7 @@ export const Item = (props) => {
       setOriginalAvatar(savedAvatar);
     } else {
       // Отримати фотографію з сервера при першому завантаженні
-      fetch(`http://localhost:3001/uploads`)
+      fetch(`api/uploads`)
         .then((response) => response.blob())
         .then((blob) => {
           const imageSrc = URL.createObjectURL(blob);
@@ -43,7 +43,7 @@ export const Item = (props) => {
       formData.append("id", props.id);
       formData.append("photo", avatar);
 
-      fetch("http://localhost:3001/product_update", {
+      fetch("api/product_update", {
         method: "POST",
         body: formData,
       })
@@ -55,7 +55,7 @@ export const Item = (props) => {
         .catch((error) => console.log(error));
     } else {
       // Використовуємо оригінальне фото, якщо зміни не відбулися
-      fetch("http://localhost:3001/product_update", {
+      fetch("api/product_update", {
         method: "POST",
         body: JSON.stringify({ name, price, id: props.id, avatar: originalAvatar }),
         headers: {

@@ -13,13 +13,13 @@ export default function App() {
   const isAdmin = user.role === "admin";
 
   const getUser = async () => {
-    const response = await fetch("http://localhost:3001/user");
+    const response = await fetch("api/user");
     const result = await response.json();
     setUser(result);
   };
 
   const getProducts = async () => {
-    const response = await fetch("http://localhost:3001/products");
+    const response = await fetch("api/products");
     const result = await response.json();
     setProducts(result);
     setFilteredProducts(result);
@@ -40,7 +40,7 @@ export default function App() {
   };
 
   const deleteProduct = async (id) => {
-    const response = await fetch("http://localhost:3001/delete_product", {
+    const response = await fetch("api/delete_product", {
       method: "POST",
       body: JSON.stringify({ id }),
       headers: {

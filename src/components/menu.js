@@ -37,7 +37,7 @@ export const Menu = (props) => {
     formData.append("price", price);
     formData.append("photo", photo);
 
-    fetch("http://localhost:3001/add_product", {
+    fetch("api/add_product", {
       method: "POST",
       body: formData,
     })
