@@ -91,6 +91,19 @@ const upload = multer({ storage });
 //         });
 // });
 
+app.get("/products", async (req, res) => {
+    try {
+        await client.connect();
+        const db = client.db("server");
+        const products = db.collection("products");
+        const listOfProducts = await products.find({}).toArray();
+
+        res.json(listOfProducts);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
 
 app.get("api/products", async (req, res) => {
     try {
