@@ -32,42 +32,42 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.get("/products", (req, res) => {
-    const { sort, filterMinPrice, filterMaxPrice } = req.query;
-    const collection = client.db("server").collection("products");
+// app.get("api/products", (req, res) => {
+//     const { sort, filterMinPrice, filterMaxPrice } = req.query;
+//     const collection = client.db("server").collection("products");
 
-    let filterOptions = {};
-    if (filterMinPrice && filterMaxPrice) {
-        filterOptions = {
-            price: {
-                $gte: parseInt(filterMinPrice), // Filter by minimum price
-                $lte: parseInt(filterMaxPrice), // Filter by maximum price
-            },
-        };
-    }
+//     let filterOptions = {};
+//     if (filterMinPrice && filterMaxPrice) {
+//         filterOptions = {
+//             price: {
+//                 $gte: parseInt(filterMinPrice), // Filter by minimum price
+//                 $lte: parseInt(filterMaxPrice), // Filter by maximum price
+//             },
+//         };
+//     }
 
-    let sortOption = {};
-    if (sort === "lowest") {
-        sortOption = { price: 1 }; // Sort by ascending price
-    } else if (sort === "highest") {
-        sortOption = { price: -1 }; // Sort by descending price
-    }
+//     let sortOption = {};
+//     if (sort === "lowest") {
+//         sortOption = { price: 1 }; // Sort by ascending price
+//     } else if (sort === "highest") {
+//         sortOption = { price: -1 }; // Sort by descending price
+//     }
 
-    collection
-        .find(filterOptions)
-        .sort(sortOption)
-        .toArray()
-        .then((products) => {
-            res.json(products);
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(500).json({ success: false, error: "Internal Server Error" });
-        });
-});
+//     collection
+//         .find(filterOptions)
+//         .sort(sortOption)
+//         .toArray()
+//         .then((products) => {
+//             res.json(products);
+//         })
+//         .catch((error) => {
+//             console.log(error);
+//             res.status(500).json({ success: false, error: "Internal Server Error" });
+//         });
+// });
 
 
-app.get("/products", async (req, res) => {
+app.get("api/products", async (req, res) => {
     try {
         await client.connect();
         const db = client.db("server");
@@ -81,7 +81,7 @@ app.get("/products", async (req, res) => {
     }
 });
 
-app.get("/user", async (req, res) => {
+app.get("api/user", async (req, res) => {
     try {
         await client.connect();
         const db = client.db("server");
@@ -95,7 +95,7 @@ app.get("/user", async (req, res) => {
     }
 });
 
-app.post("/add_product", upload.single("photo"), async (req, res) => {
+app.post("api/add_product", upload.single("photo"), async (req, res) => {
     try {
         const name = req.body.name;
         const price = req.body.price;
@@ -114,7 +114,7 @@ app.post("/add_product", upload.single("photo"), async (req, res) => {
     }
 });
 
-app.post("/delete_product", async (req, res) => {
+app.post("api/delete_product", async (req, res) => {
     try {
         const id = req.body.id;
 
@@ -131,7 +131,7 @@ app.post("/delete_product", async (req, res) => {
     }
 });
 
-app.post("/product_update", async (req, res) => {
+app.post("api/product_update", async (req, res) => {
     try {
         const id = req.body.id;
         const name = req.body.name;
