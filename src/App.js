@@ -11,12 +11,7 @@ export default function App() {
   const [user, setUser] = useState({});
   const [filteredProducts, setFilteredProducts] = useState([]);
   const isAdmin = user.role === "admin";
-  const log = async () => {
-    const response = await fetch("/api/some/path");
 
-    const result = await response.json();
-    setUser(result);
-  }
 
   const getUser = async () => {
 
@@ -36,7 +31,6 @@ export default function App() {
   useEffect(() => {
     getUser();
     getProducts();
-    log()
   }, []);
 
   const [input, setInput] = useState("");
