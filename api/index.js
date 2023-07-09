@@ -127,7 +127,8 @@ app.get("/user", async (req, res) => {
 });
 
 app.get("/api/some/path", (req, res) => {
-    res.send("wow, it actually worked");
+    console.log('some path')
+    res.json({ a: 2 });
 });
 
 app.get("api/user", async (req, res) => {
