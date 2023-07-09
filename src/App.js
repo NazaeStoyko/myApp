@@ -14,7 +14,9 @@ export default function App() {
 
   const getUser = async () => {
 
-    const response = await fetch("/user");
+    const response = await fetch("/user", {
+      cache: 'no-cache'
+    });
 
     const result = await response.json();
     setUser(result);
