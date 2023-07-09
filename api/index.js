@@ -6,10 +6,11 @@ const { ObjectId } = require("mongodb");
 const path = require("path");
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3000;
+console.log({ port })
 
 const corsOptions = {
-    origin: "/",
+    origin: "*",
 };
 
 app.use(cors(corsOptions));
