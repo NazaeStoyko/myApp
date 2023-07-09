@@ -20,7 +20,7 @@ export default function App() {
 
   const getUser = async () => {
 
-    const response = await fetch("/user");
+    const response = await fetch("/api/user");
 
     const result = await response.json();
     setUser(result);

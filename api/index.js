@@ -145,7 +145,7 @@ app.get("/api/some/path", async (req, res) => {
     }
 });
 
-app.get("api/user", async (req, res) => {
+app.get("/api/user", async (req, res) => {
     console.log('into user endpoint')
     try {
         await client.connect();
