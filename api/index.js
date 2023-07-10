@@ -91,8 +91,8 @@ app.get("/api/user", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
-// upload.single("photo"),
-app.post("/api/add_product",  async (req, res) => {
+//
+app.post("/api/add_product", upload.single("photo"),  async (req, res) => {
     try {
         const name = req.body.name;
         const price = req.body.price;
