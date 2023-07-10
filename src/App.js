@@ -15,14 +15,14 @@ export default function App() {
 
   const getUser = async () => {
 
-    const response = await fetch("https://gamepad-server.glitch.me/user");
+    const response = await fetch("https://gamepad-server.onrender.com/user");
 
     const result = await response.json();
     setUser(result);
   };
 
   const getProducts = async () => {
-    const response = await fetch("https://gamepad-server.glitch.me/products");
+    const response = await fetch("https://gamepad-server.onrender.com/products");
     const result = await response.json();
     setProducts(result);
     setFilteredProducts(result);
@@ -43,7 +43,7 @@ export default function App() {
   };
 
   const deleteProduct = async (id) => {
-    const response = await fetch("https://gamepad-server.glitch.me/delete_product", {
+    const response = await fetch("https://gamepad-server.onrender.com/delete_product", {
       method: "POST",
       body: JSON.stringify({ id }),
       headers: {

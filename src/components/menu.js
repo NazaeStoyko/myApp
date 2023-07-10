@@ -37,7 +37,7 @@ export const Menu = (props) => {
     formData.append("price", price);
     formData.append("photo", photo);
 
-    fetch("https://gamepad-server.glitch.me/add_product", {
+    fetch("https://gamepad-server.onrender.com/add_product", {
       method: "POST",
       body: formData,
     })

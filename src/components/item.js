@@ -27,7 +27,7 @@ export const Item = (props) => {
       formData.append("id", props.id);
       formData.append("photo", avatar);
 
-      fetch("https://gamepad-server.glitch.me/product_update", {
+      fetch("https://gamepad-server.onrender.com/product_update", {
         method: "POST",
         body: formData,
       })
@@ -39,7 +39,7 @@ export const Item = (props) => {
         .catch((error) => console.log(error));
     } else {
       // Використовуємо оригінальне фото, якщо зміни не відбулися
-      fetch("https://gamepad-server.glitch.me/product_update", {
+      fetch("https://gamepad-server.onrender.com/product_update", {
         method: "POST",
         body: JSON.stringify({ name, price, id: props.id, avatar: originalAvatar }),
         headers: {
