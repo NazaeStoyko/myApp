@@ -164,7 +164,7 @@ export const Item = (props) => {
                 accept="image/*"
                 onChange={handleImageUpload}
               />
-              <button onClick={updateProduct}>Save</button>
+              <button className="buttonSave" onClick={updateProduct}>Save</button>
             </div>
           }
         />

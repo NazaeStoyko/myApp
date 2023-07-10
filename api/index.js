@@ -57,42 +57,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// app.get("api/products", (req, res) => {
-//     const { sort, filterMinPrice, filterMaxPrice } = req.query;
-//     const collection = client.db("server").collection("products");
-
-//     let filterOptions = {};
-//     if (filterMinPrice && filterMaxPrice) {
-//         filterOptions = {
-//             price: {
-//                 $gte: parseInt(filterMinPrice), // Filter by minimum price
-//                 $lte: parseInt(filterMaxPrice), // Filter by maximum price
-//             },
-//         };
-//     }
-
-//     let sortOption = {};
-//     if (sort === "lowest") {
-//         sortOption = { price: 1 }; // Sort by ascending price
-//     } else if (sort === "highest") {
-//         sortOption = { price: -1 }; // Sort by descending price
-//     }
-
-//     collection
-//         .find(filterOptions)
-//         .sort(sortOption)
-//         .toArray()
-//         .then((products) => {
-//             res.json(products);
-//         })
-//         .catch((error) => {
-//             console.log(error);
-//             res.status(500).json({ success: false, error: "Internal Server Error" });
-//         });
-// });
-
-
-
 app.get("/api/products", async (req, res) => {
     try {
         await client.connect();
