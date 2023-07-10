@@ -13,24 +13,6 @@ export const Item = (props) => {
   const [name, setName] = useState(props.name);
   const [price, setPrice] = useState(props.price);
 
-  // useEffect(() => {
-  //   const savedAvatar = localStorage.getItem(`avatar-${props.id}`);
-  //   if (savedAvatar) {
-  //     setAvatar(savedAvatar);
-  //     setOriginalAvatar(savedAvatar);
-  //   } else {
-  //     // Отримати фотографію з сервера при першому завантаженні
-  //     fetch(`http://localhost:3001/uploads`)
-  //       .then((response) => response.blob())
-  //       .then((blob) => {
-  //         // const imageSrc = URL.createObjectURL(blob);
-  //         setAvatar(blob);
-  //         setOriginalAvatar(blob);
-  //         localStorage.setItem(`avatar-${props.id}`, blob);
-  //       })
-  //       .catch((error) => console.log(error));
-  //   }
-  // }, [props.id]);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -45,7 +27,7 @@ export const Item = (props) => {
       formData.append("id", props.id);
       formData.append("photo", avatar);
 
-      fetch("http://localhost:3001/product_update", {
+      fetch("https://gamepad-server.glitch.me/product_update", {
         method: "POST",
         body: formData,
       })
@@ -57,7 +39,7 @@ export const Item = (props) => {
         .catch((error) => console.log(error));
     } else {
       // Використовуємо оригінальне фото, якщо зміни не відбулися
-      fetch("http://localhost:3001/product_update", {
+      fetch("https://gamepad-server.glitch.me/product_update", {
         method: "POST",
         body: JSON.stringify({ name, price, id: props.id, avatar: originalAvatar }),
         headers: {
