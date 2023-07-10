@@ -1,7 +1,6 @@
 import React from "react";
 import "./footer.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook, faTwitter, faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
+
 
 const Footer = () => {
   return (
@@ -37,9 +36,9 @@ const Footer = () => {
           Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
         </p>
         <div className="footer-icons">
-          <a href="#"><FontAwesomeIcon icon={faFacebook} /></a>
-          <a href="#"><FontAwesomeIcon icon={faTwitter} /></a>
-          <a href="https://github.com/NazaeStoyko/myApp"><FontAwesomeIcon icon={faGithub} /></a>
+          <a href="#">Icon</a>
+          <a href="#">Icon</a>
+          <a href="https://github.com/NazaeStoyko/myApp">Icon</a>
         </div>
       </div>
     </footer>
