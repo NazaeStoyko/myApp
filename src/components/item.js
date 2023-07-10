@@ -6,29 +6,31 @@ import { FaTrash, FaEdit, FaShoppingCart } from "react-icons/fa";
 
 export const Item = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [avatar, setAvatar] = useState(null);
+  const [avatar, setAvatar] = useState(props.imageUrl);
+
+
   const [originalAvatar, setOriginalAvatar] = useState(null);
   const [name, setName] = useState(props.name);
   const [price, setPrice] = useState(props.price);
 
-  useEffect(() => {
-    const savedAvatar = localStorage.getItem(`avatar-${props.id}`);
-    if (savedAvatar) {
-      setAvatar(savedAvatar);
-      setOriginalAvatar(savedAvatar);
-    } else {
-      // Отримати фотографію з сервера при першому завантаженні
-      fetch(`/api/uploads`)
-        .then((response) => response.blob())
-        .then((blob) => {
-          const imageSrc = URL.createObjectURL(blob);
-          setAvatar(imageSrc);
-          setOriginalAvatar(imageSrc);
-          localStorage.setItem(`avatar-${props.id}`, imageSrc);
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [props.id]);
+  // useEffect(() => {
+  //   const savedAvatar = localStorage.getItem(`avatar-${props.id}`);
+  //   if (savedAvatar) {
+  //     setAvatar(savedAvatar);
+  //     setOriginalAvatar(savedAvatar);
+  //   } else {
+  //     // Отримати фотографію з сервера при першому завантаженні
+  //     fetch(`http://localhost:3001/uploads`)
+  //       .then((response) => response.blob())
+  //       .then((blob) => {
+  //         // const imageSrc = URL.createObjectURL(blob);
+  //         setAvatar(blob);
+  //         setOriginalAvatar(blob);
+  //         localStorage.setItem(`avatar-${props.id}`, blob);
+  //       })
+  //       .catch((error) => console.log(error));
+  //   }
+  // }, [props.id]);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -43,7 +45,7 @@ export const Item = (props) => {
       formData.append("id", props.id);
       formData.append("photo", avatar);
 
-      fetch("/api/product_update", {
+      fetch("http://localhost:3001/product_update", {
         method: "POST",
         body: formData,
       })
@@ -55,7 +57,7 @@ export const Item = (props) => {
         .catch((error) => console.log(error));
     } else {
       // Використовуємо оригінальне фото, якщо зміни не відбулися
-      fetch("/api/product_update", {
+      fetch("http://localhost:3001/product_update", {
         method: "POST",
         body: JSON.stringify({ name, price, id: props.id, avatar: originalAvatar }),
         headers: {
@@ -75,9 +77,9 @@ export const Item = (props) => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      const imageSrc = reader.result;
-      setAvatar(imageSrc);
-      localStorage.setItem(`avatar-${props.id}`, imageSrc);
+      const imageUrl = reader.result;
+      setAvatar(imageUrl);
+      localStorage.setItem(`avatar-${props.id}`, imageUrl);
     };
     if (file) {
       reader.readAsDataURL(file);
@@ -87,6 +89,7 @@ export const Item = (props) => {
   const resetValues = () => {
     setName(props.name);
     setPrice(props.price);
+    setAvatar(props.imageUrl)
   };
 
   const resetImage = () => {
@@ -107,9 +110,8 @@ export const Item = (props) => {
         <div className="block_column">
           <div className="block_item">
             <div className="card">
-              {avatar && (
-                <img src={avatar} alt="Photo" style={{ width: "100%" }} />
-              )}
+              <img src={avatar} alt="Photo" style={{ width: "100%" }} />
+
               <div className="container">
                 <h4>
                   <b>{name}</b>
